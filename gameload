@@ -1,3 +1,5 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/SkygameChZ/Neutronhub/main/welcomegui"))();
+wait(6)
 if game.PlaceID == 6843905606 then
 _, Protected_by_MoonSecV2, Discord = 'discord.gg/gQEH2uZxUk'
 
