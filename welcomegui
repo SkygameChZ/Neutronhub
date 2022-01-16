@@ -31,12 +31,10 @@ local function BOIEVF_fake_script() -- mainframe.LocalScript
 	local object = script.Parent
 	object.AnchorPoint = Vector2.new(0.5, 0.5)
 	object.Position = UDim2.new(0, 0, 0, 0)
-	wait(2)
 	object:TweenPosition(UDim2.new(0.5, 0, 0.5, 0))
 	wait(2)
 	object:TweenPosition(UDim2.new(-0.10, 0, -0.10, 0))
 	wait(2)
 	object:Destroy()
 end
-coroutine.wrap(BOIEVF_fake_script)()
 wait(6)
