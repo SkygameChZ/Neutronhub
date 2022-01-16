@@ -1,3 +1,46 @@
+local Main = Instance.new("ScreenGui")
+local mainframe = Instance.new("Frame")
+local Neutronhub = Instance.new("ImageLabel")
+local TextLabel = Instance.new("TextLabel")
+Main.Name = "Main"
+Main.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+Main.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+mainframe.Name = "main frame"
+mainframe.Parent = Main
+mainframe.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+mainframe.BackgroundTransparency = 0.850
+mainframe.Position = UDim2.new(-0.218912885, 0, -0.298245668, 0)
+mainframe.Size = UDim2.new(0, 294, 0, 293)
+Neutronhub.Name = "Neutron hub"
+Neutronhub.Parent = mainframe
+Neutronhub.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Neutronhub.Position = UDim2.new(0.122448981, 0, 0.0546075068, 0)
+Neutronhub.Size = UDim2.new(0, 222, 0, 199)
+Neutronhub.Image = "http://www.roblox.com/asset/?id=8554782922"
+TextLabel.Parent = mainframe
+TextLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.BackgroundTransparency = 1.000
+TextLabel.Position = UDim2.new(0.0510204099, 0, 0.781570077, 0)
+TextLabel.Size = UDim2.new(0, 263, 0, 50)
+TextLabel.Text = "Neutron hub"
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.TextSize = 22.000
+local function BOIEVF_fake_script() -- mainframe.LocalScript 
+	local script = Instance.new('LocalScript', mainframe)
+
+	local object = script.Parent
+	object.AnchorPoint = Vector2.new(0.5, 0.5)
+	object.Position = UDim2.new(0, 0, 0, 0)
+	wait(2)
+	object:TweenPosition(UDim2.new(0.5, 0, 0.5, 0))
+	wait(2)
+	object:TweenPosition(UDim2.new(-0.10, 0, -0.10, 0))
+	wait(2)
+	object:Destroy()
+end
+coroutine.wrap(BOIEVF_fake_script)()
+
+wait(6)
 if game.PlaceID == 6843905606 then
   loadstring(game:HttpGet("https://raw.githubusercontent.com/SkygameChZ/Neutronhub/main/Critical%20Lgends"))();
 end
