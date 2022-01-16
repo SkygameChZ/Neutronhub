@@ -39,8 +39,8 @@ local function BOIEVF_fake_script() -- mainframe.LocalScript
 	object:Destroy()
 end
 coroutine.wrap(BOIEVF_fake_script)()
-
 wait(6)
+
 if game.PlaceID == 6843905606 then
   loadstring(game:HttpGet("https://raw.githubusercontent.com/SkygameChZ/Neutronhub/main/Critical%20Lgends"))();
 end
