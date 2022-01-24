@@ -59,7 +59,7 @@ Enter.TextSize = 14.000
 Enter.MouseButton1Down:connect(function()
 	if SYS.Text == "JWhb4kAwPhDS2gvX58jwFsTgZMFrd9" then
 		FrameSYS.Visible = false
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/SkygameChZ/Neutronhub/main/NeutronX"))();
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/SkygameChZ/Neutronhub/main/gameload"))();
 	else
 		game.Players.LocalPlayer:Kick("Wrong Key please try again.")
 	end
