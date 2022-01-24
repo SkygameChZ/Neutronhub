@@ -1,40 +1,66 @@
-local Main = Instance.new("ScreenGui")
-local mainframe = Instance.new("Frame")
-local Neutronhub = Instance.new("ImageLabel")
-local TextLabel = Instance.new("TextLabel")
-Main.Name = "Main"
-Main.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-Main.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-mainframe.Name = "main frame"
-mainframe.Parent = Main
-mainframe.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-mainframe.BackgroundTransparency = 0.850
-mainframe.Position = UDim2.new(-0.218912885, 0, -0.298245668, 0)
-mainframe.Size = UDim2.new(0, 294, 0, 293)
-Neutronhub.Name = "Neutron hub"
-Neutronhub.Parent = mainframe
-Neutronhub.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Neutronhub.Position = UDim2.new(0.122448981, 0, 0.0546075068, 0)
-Neutronhub.Size = UDim2.new(0, 222, 0, 199)
-Neutronhub.Image = "http://www.roblox.com/asset/?id=8554782922"
-TextLabel.Parent = mainframe
-TextLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-TextLabel.BackgroundTransparency = 1.000
-TextLabel.Position = UDim2.new(0.0510204099, 0, 0.781570077, 0)
-TextLabel.Size = UDim2.new(0, 263, 0, 50)
-TextLabel.Text = "Neutron hub"
-TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel.TextSize = 22.000
-local function BOIEVF_fake_script() -- mainframe.LocalScript 
-	local script = Instance.new('LocalScript', mainframe)
-	local object = script.Parent
-	object.AnchorPoint = Vector2.new(0.5, 0.5)
-	object.Position = UDim2.new(0, 0, 0, 0)
-	wait(2)
-	object:TweenPosition(UDim2.new(0.5, 0, 0.5, 0))
-	wait(2)
-	object:TweenPosition(UDim2.new(-0.10, 0, -0.10, 0))
-	wait(2)
-	object:Destroy()
-end
-coroutine.wrap(BOIEVF_fake_script)()
+local Keysys = Instance.new("ScreenGui")
+local FrameSYS = Instance.new("Frame")
+local SYS = Instance.new("TextBox")
+local Neutron = Instance.new("ImageLabel")
+local NeutronHubKeysystem = Instance.new("TextLabel")
+local Enter = Instance.new("TextButton")
+
+Keysys.Name = "Keysys"
+Keysys.Parent = game.CoreGui
+Keysys.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+FrameSYS.Name = "FrameSYS"
+FrameSYS.Parent = Keysys
+FrameSYS.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+FrameSYS.BackgroundTransparency = 0.700
+FrameSYS.Position = UDim2.new(0.370067, 0, 0.355555564, 0)
+FrameSYS.Size = UDim2.new(0, 349, 0, 188)
+FrameSYS.Active = true
+FrameSYS.Visible = true
+FrameSYS.Draggable = true
+
+SYS.Name = "SYS"
+SYS.Parent = FrameSYS
+SYS.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+SYS.BackgroundTransparency = 0.500
+SYS.Position = UDim2.new(0.0601719208, 0, 0.350574732, 0)
+SYS.Size = UDim2.new(0, 307, 0, 52)
+SYS.Text = ""
+SYS.TextColor3 = Color3.fromRGB(255, 255, 255)
+SYS.TextSize = 14.000
+
+Neutron.Name = "Neutron"
+Neutron.Parent = FrameSYS
+Neutron.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Neutron.Position = UDim2.new(0.126074508, 0, 0.0747126415, 0)
+Neutron.Size = UDim2.new(0, 44, 0, 40)
+Neutron.Image = "http://www.roblox.com/asset/?id=8554782922"
+
+NeutronHubKeysystem.Name = "Neutron Hub Key system"
+NeutronHubKeysystem.Parent = FrameSYS
+NeutronHubKeysystem.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+NeutronHubKeysystem.BackgroundTransparency = 0.500
+NeutronHubKeysystem.Position = UDim2.new(0.272206277, 0, 0.114942528, 0)
+NeutronHubKeysystem.Size = UDim2.new(0, 200, 0, 25)
+NeutronHubKeysystem.Font = Enum.Font.SourceSans
+NeutronHubKeysystem.Text = "Neutron Hub Key system"
+NeutronHubKeysystem.TextColor3 = Color3.fromRGB(255, 255, 255)
+NeutronHubKeysystem.TextSize = 23.000
+
+Enter.Name = "Enter"
+Enter.Parent = FrameSYS
+Enter.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Enter.BackgroundTransparency = 0.500
+Enter.Position = UDim2.new(0.212034389, 0, 0.6594522, 0)
+Enter.Size = UDim2.new(0, 200, 0, 50)
+Enter.Text = "Enter key"
+Enter.TextColor3 = Color3.fromRGB(255, 255, 255)
+Enter.TextSize = 14.000
+Enter.MouseButton1Down:connect(function()
+	if SYS.Text == "JWhb4kAwPhDS2gvX58jwFsTgZMFrd9" then
+		FrameSYS.Visible = false
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/SkygameChZ/Neutronhub/main/NeutronX"))();
+	else
+		game.Players.LocalPlayer:Kick("Wrong Key please try again.")
+	end
+end)
