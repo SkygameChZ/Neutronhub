@@ -1,1 +1,1 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/SkygameChZ/Neutronhub/main/welcomegui"))();
+loadstring(game:HttpGet("https://raw.githubusercontent.com/SkygameChZ/Neutronhub/main/gameload"))();
