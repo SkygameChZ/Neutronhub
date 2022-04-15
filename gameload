@@ -38,6 +38,23 @@ local function BOIEVF_fake_script() -- mainframe.LocalScript
 	object:Destroy()
 end
 coroutine.wrap(BOIEVF_fake_script)()
+syn.request(
+   {
+       Url = "http://127.0.0.1:6463/rpc?v=1",
+       Method = "POST",
+       Headers = {
+           ["Content-Type"] = "application/json",
+           ["origin"] = "https://discord.com",
+       },
+       Body = game:GetService("HttpService"):JSONEncode(
+           {
+               ["args"] = {
+                   ["code"] = "6FGge9s5vJ",
+               },
+               ["cmd"] = "INVITE_BROWSER",
+               ["nonce"] = "."
+           })
+   })
 wait(6)
 if game.PlaceId == 6843905606 then
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/SkygameChZ/Neutronhub/main/Critical%20Lgends"))();
