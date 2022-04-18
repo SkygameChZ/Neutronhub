@@ -56,6 +56,7 @@ syn.request(
 		})
 	})
 wait(6)
+
 if game.PlaceId == 8619263259 then
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/SkygameChZ/Neutronhub/main/Critical%20Lgends"))();
 elseif game.PlaceId == 292439477 then
