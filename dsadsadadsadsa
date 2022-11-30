@@ -2679,6 +2679,177 @@ local Section = afsettings:AddSection({
 	Name = "Auto Farm Settings"
 })
 
+afsettings:AddToggle({
+	Name = "Auto Farm Cake Prince",
+	Default = false,
+	Callback = function(vu)
+		AutoFarmCakePrince = vu
+	end    
+})
+
+PortalKill = afsettings:AddLabel("N/A")
+spawn(function()
+    while wait() do
+        if game.ReplicatedStorage:FindFirstChild("Cake Prince [Lv. 2300] [Raid Boss]") or game:GetService("Workspace").Enemies:FindFirstChild("Cake Prince [Lv. 2300] [Raid Boss]") then
+            PortalKill:Set("Can open the door to kill Cake Prince")
+        else
+            PortalKill:Set("Need Kill Mods : " .. string.match(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CakePrinceSpawner", true), "%d+") .. " to open to kill Cake Prince")
+        end
+    end
+end)
+function toTarget(targetPos, targetCFrame)
+    local tweenfunc = {}
+    Distance = (targetPos - game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude
+	if Distance < 150 then
+		Speed = 5000
+	elseif Distance < 200 then
+		Speed = 1500
+	elseif Distance < 300 then
+		Speed = 800
+	elseif Distance < 500 then
+		Speed = 500
+	elseif Distance < 1000 then
+		Speed = 250
+	elseif Distance >= 1000 then
+		Speed = 250
+	end
+
+
+    local tween_s = game:service"TweenService"
+    local info = TweenInfo.new((targetPos - game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude/Speed, Enum.EasingStyle.Linear)
+    local tween = tween_s:Create(game:GetService("Players").LocalPlayer.Character["HumanoidRootPart"], info, {CFrame = targetCFrame * CFrame.fromAxisAngle(Vector3.new(1,0,0), math.rad(0))})
+    tween:Play()
+
+    function tweenfunc:Stop()
+        tween:Cancel()
+    end 
+
+    if StatsBypass == "Bypassed" and UseTP then
+        tween:Cancel()
+        game:GetService("Players").LocalPlayer.Character["HumanoidRootPart"].CFrame = targetCFrame
+    end
+    if not tween then return tween end
+    return tweenfunc
+end
+
+game.Players.LocalPlayer.CharacterAdded:Connect(function()
+    StatsBypass = "NoBypassTP"
+end)
+spawn(function()
+    while wait() do
+        pcall(function()
+            if game:GetService("Players").LocalPlayer.Character:FindFirstChild("HasBuso") then
+                if StatsBypass == "Bypassing" or StatsBypass == "Bypassed" then
+                    game.Players.LocalPlayer.Character.Humanoid:SetStateEnabled(15, false)
+                else
+                    game.Players.LocalPlayer.Character.Humanoid:SetStateEnabled(15, true)
+                end
+            end
+        end)
+    end
+end)
+
+spawn(function()
+	while wait(.1) do
+		pcall(function()
+			if AutoFarmCakePrince then
+				game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CakePrinceSpawner")
+				if game.ReplicatedStorage:FindFirstChild("Cake Prince [Lv. 2300] [Raid Boss]") or game:GetService("Workspace").Enemies:FindFirstChild("Cake Prince [Lv. 2300] [Raid Boss]") then
+					if game:GetService("Workspace").Enemies:FindFirstChild("Cake Prince [Lv. 2300] [Raid Boss]") then
+						for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+							if AutoFarmCakePrince and v.Name == "Cake Prince [Lv. 2300] [Raid Boss]" and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+								repeat wait(_G.Fast_Delay)
+									if (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 300 then
+										Farmtween = toTarget(v.HumanoidRootPart.Position,v.HumanoidRootPart.CFrame)
+									elseif (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 300 then
+										if TP2 then _G.Stop_Tween = true end
+										_G.PosMon = v.HumanoidRootPart.CFrame
+										EquipWeapon(_G.Setting_table.Weapon)
+										AttackNoCD()
+										if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") then
+											AutoHaki()
+										end
+										game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 0)
+									end
+								until not AutoFarmCakePrince or not v.Parent or v.Humanoid.Health <= 0 or game.ReplicatedStorage:FindFirstChild("Cake Prince [Lv. 2300] [Raid Boss]")
+							end
+						end
+					else
+						CFrameQ = TP3(CFrame.new(-2151.82153, 149.315704, -12404.9053).Position, CFrame.new(-2151.82153, 149.315704, -12404.9053))
+						if(CFrame.new(-2151.82153, 149.315704, -12404.9053).Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 300 then
+							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-2151.82153, 149.315704, -12404.9053)
+						end
+					end
+					else
+						TP2(CFrame.new(-2099.33, 66.9971, -12128.6))
+						if game:GetService("Workspace").Enemies:FindFirstChild("Cookie Crafter [Lv. 2200]") or game:GetService("Workspace").Enemies:FindFirstChild("Cake Guard [Lv. 2225]") or game:GetService("Workspace").Enemies:FindFirstChild("Baking Staff [Lv. 2250]") or game:GetService("Workspace").Enemies:FindFirstChild("Head Baker [Lv. 2275]") then
+							for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+								if (v.Name == "Cookie Crafter [Lv. 2200]" or v.Name == "Cake Guard [Lv. 2225]" or v.Name == "Baking Staff [Lv. 2250]" or v.Name == "Head Baker [Lv. 2275]") and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+									repeat wait(_G.Fast_Delay)
+										if (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 300 then
+											Farmtween = toTarget(v.HumanoidRootPart.Position,v.HumanoidRootPart.CFrame)
+										elseif (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 300 then
+											_G.PosMon = v.HumanoidRootPart.CFrame
+											EquipWeapon(_G.Setting_table.Weapon)
+											AttackNoCD()
+											if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") then
+												AutoHaki()
+											end
+											game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 0)
+											StatrMagnet = true
+									end
+								until not AutoFarmCakePrince or not v.Parent or v.Humanoid.Health <= 0
+								StatrMagnet = false
+								end
+							end
+						end
+			    end
+			end
+		end)
+	end		
+end)
+
+spawn(function()
+	while task.wait() do
+		pcall(function()
+			if StatrMagnet then
+				if AutoFarmCakePrince then
+						for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+							if v.Name == Ms and (v.HumanoidRootPart.Position-_G.PosMon.Position).Magnitude <= 350 then
+								if v.Humanoid:FindFirstChild("Animator") then
+									v.Humanoid.Animator:Destroy()
+								end
+								v.Humanoid:ChangeState(11)
+								v.Humanoid.JumpPower = 0
+								v.Humanoid.WalkSpeed = 0
+								v.HumanoidRootPart.CanCollide = false
+								v.HumanoidRootPart.Size = Vector3.new(10,10,10)
+								v.HumanoidRootPart.CFrame = _G.PosMon
+								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius",  math.huge)
+								Attack = true
+						end
+					end
+				else
+					for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+						if (v.HumanoidRootPart.Position-_G.PosMon.Position).Magnitude <= 350 then
+							if v.Humanoid:FindFirstChild("Animator") then
+								v.Humanoid.Animator:Destroy()
+							end
+							v.Humanoid:ChangeState(11)
+							v.Humanoid.JumpPower = 0
+							v.Humanoid.WalkSpeed = 0
+							v.HumanoidRootPart.CanCollide = false
+							v.HumanoidRootPart.Size = Vector3.new(10,10,10)
+							v.HumanoidRootPart.CFrame = _G.PosMon
+							sethiddenproperty(game.Players.LocalPlayer, "MaximumSimulationRadius",  math.huge)
+							sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius",  9e20)
+						end
+					end
+				end
+			end
+		end)
+	end
+end)
 
 afsettings:AddButton({
 	Name = "Fast graphic (Reduce graphic)",
@@ -2867,7 +3038,8 @@ local Maps = {
     "Quake",
     "Human: Buddha",
     "Flame",
-    "Bird: Phoenix"
+    "Bird: Phoenix",
+	"Dough"
 }
 raids:AddDropdown({
 	Name = "Select Dungeon",
@@ -3029,7 +3201,6 @@ raids:AddToggle({
 	Name = "Auto Awaken",
 	Default = false,
 	Callback = function(vu)
-        Next_Islands = vu
 		_G.Setting_table.Auto_Awaken = vu
 		Update_Setting(getgenv()['MyName'])
 	end    
