@@ -2347,6 +2347,209 @@ spawn(function()
     end
 end)
 
+mainf:AddLabel("Auto Farm Boss")
+
+Boss_A = {}
+function CheckBoss()
+	for i,v in pairs(Boss_A) do
+		table.remove(Boss_A,i)
+	end
+	for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+		if string.find(v.Name,"Boss") then
+			table.insert(Boss_A,v.Name)
+		end
+	end
+	for i,v in pairs(game.ReplicatedStorage:GetChildren()) do
+		if string.find(v.Name,"Boss") then
+			table.insert(Boss_A,v.Name)
+		end
+	end
+end
+Boss = {}
+for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+	if string.find(v.Name,"Boss") then
+		table.insert(Boss,v.Name)
+	end
+end
+for i,v in pairs(game.ReplicatedStorage:GetChildren()) do
+	if string.find(v.Name,"Boss") then
+		table.insert(Boss,v.Name)
+	end
+end
+if type(_G.Setting_table.Boss_Name) == 'string' then
+else
+	_G.Setting_table.Boss_Name = ""
+end
+Boss_List = {
+	"Saber Expert [Lv. 200] [Boss]" ,
+	"Thunder God [Lv. 575] [Boss]",
+	"Diamond [Lv. 750] [Boss]",
+	"Jeremy [Lv. 850] [Boss]",
+	"Fajita [Lv. 925] [Boss]",
+	"Don Swan [Lv. 1000] [Boss]",
+	"Darkbeard [Lv. 1000] [Raid Boss]",
+	"Tide Keeper [Lv. 1475] [Boss]",
+	"Island Empress [Lv. 1675] [Boss]",
+	"Captain Elephant [Lv. 1875] [Boss]",
+	"rip_indra True Form [Lv. 5000] [Raid Boss]",
+	"Longma [Lv. 2000] [Boss]",
+	"Soul Reaper [Lv. 2100] [Raid Boss]",
+	"Cake Queen [Lv. 2175] [Boss]"
+}
+
+Bossdrop = mainf:AddDropdown({
+	Name = "Select Boss",
+	Default = "",
+	Options = Boss_List,
+	Callback = function(vu)
+		_G.Setting_table.Boss_Name = vu
+		Update_Setting(getgenv()['MyName'])
+	end    
+})
+
+
+
+mainf:AddToggle({
+	Name = "Auto Farm Boss",
+	Default = false,
+	Callback = function(vu)
+		Auto_Farm_Boss = vu
+		_G.Setting_table.Farm_Boss = vu
+		Update_Setting(getgenv()['MyName'])
+	end    
+})
+
+mainf:AddButton({
+	Name = "Refresh Boss",
+	Callback = function(vu)
+		Boss = {}
+		for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+			if string.find(v.Name,"Boss") then
+				table.insert(Boss,v.Name)
+			end
+		end
+		for i,v in pairs(game.ReplicatedStorage:GetChildren()) do
+			if string.find(v.Name,"Boss") then
+				table.insert(Boss,v.Name)
+			end
+		end
+
+Bossdrop:Refresh(Boss, true)
+  	end  
+})
+
+spawn(function()
+	while wait(.5) do
+		pcall(function()
+			if Auto_Farm_Boss then
+				if not Mix_Farm or Auto_Farm_Boss_Ex then
+					if game.Workspace.Enemies:FindFirstChild(_G.Setting_table.Boss_Name) or game.ReplicatedStorage:FindFirstChild(_G.Setting_table.Boss_Name) then
+						Mix_Farm = true
+						Auto_Farm_Boss_Ex = true
+						if game.Workspace.Enemies:FindFirstChild(_G.Setting_table.Boss_Name) then
+							for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+								if v.Name == _G.Setting_table.Boss_Name and v.Humanoid.Health > 0 then
+									game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint")
+									if v.Humanoid:FindFirstChild("Animator") then
+										v.Humanoid.Animator:Destroy()
+									end
+									repeat wait(_G.Fast_Delay)
+										EquipWeapon(_G.Setting_table.Weapon)
+										TP(v.HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+										AttackNoCD()
+									until v.Humanoid.Health <= 0 or not v.Parent or Auto_Farm_Boss == false
+									Mix_Farm = nil
+									Auto_Farm_Boss_Ex = nil
+								end
+							end
+						elseif game.ReplicatedStorage:FindFirstChild(_G.Setting_table.Boss_Name) then
+							TP(game.ReplicatedStorage:FindFirstChild(_G.Setting_table.Boss_Name).HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+						end
+					elseif game.Workspace.Enemies:FindFirstChild(_G.Setting_table.Boss_Lock) or game.ReplicatedStorage:FindFirstChild(_G.Setting_table.Boss_Lock) then
+						Mix_Farm = true
+						Auto_Farm_Boss_Ex = true
+						if game.Workspace.Enemies:FindFirstChild(_G.Setting_table.Boss_Lock) then
+							for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+								if v.Name == _G.Setting_table.Boss_Lock and v.Humanoid.Health > 0 then
+									game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint")
+									if v.Humanoid:FindFirstChild("Animator") then
+										v.Humanoid.Animator:Destroy()
+									end
+									repeat wait(_G.Fast_Delay)
+										TP(v.HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+										AttackNoCD()
+									until v.Humanoid.Health <= 0 or not v.Parent or Auto_Farm_Boss == false
+									Mix_Farm = nil
+									Auto_Farm_Boss_Ex = nil
+								end
+							end
+						elseif game.ReplicatedStorage:FindFirstChild(_G.Setting_table.Boss_Lock) then
+							TP(game.ReplicatedStorage:FindFirstChild(_G.Setting_table.Boss_Lock).HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+						end
+					elseif Auto_Farm_Boss_Ex then
+						Mix_Farm = nil
+						Auto_Farm_Boss_Ex = nil
+					else
+						wait(3)
+					end
+				end
+			elseif _G.Setting_table.Auto_Farm_Boss_Hop then
+				if Ping == nil then
+					Hop_Boss()
+					wait(1)
+					print("....".._G.Setting_table.Boss_Name)
+					Ping = true
+				end
+				if game.Workspace.Enemies:FindFirstChild(_G.Setting_table.Boss_Name) or game.ReplicatedStorage:FindFirstChild(_G.Setting_table.Boss_Name) then
+					Mix_Farm = true
+					Auto_Farm_Boss_Ex = true
+					if game.Workspace.Enemies:FindFirstChild(_G.Setting_table.Boss_Name) then
+						for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+							if v.Name == _G.Setting_table.Boss_Name and v.Humanoid.Health > 0 then
+								game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint")
+								if v.Humanoid:FindFirstChild("Animator") then
+									v.Humanoid.Animator:Destroy()
+								end
+								repeat wait(_G.Fast_Delay)
+									EquipWeapon(_G.Setting_table.Weapon)
+									TP(v.HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+									AttackNoCD()
+								until v.Humanoid.Health <= 0 or not v.Parent or _G.Setting_table.Auto_Farm_Boss_Hop == false
+								Mix_Farm = nil
+								Auto_Farm_Boss_Ex = nil
+								Ping = nil
+							end
+						end
+					elseif game.ReplicatedStorage:FindFirstChild(_G.Setting_table.Boss_Name) then
+						TP(game.ReplicatedStorage:FindFirstChild(_G.Setting_table.Boss_Name).HumanoidRootPart.CFrame*CFrame.new(0,30,0))
+					end
+				elseif Auto_Farm_Boss_Ex then
+					Mix_Farm = nil
+					Auto_Farm_Boss_Ex = nil
+					Ping = nil
+				else
+					wait(5)
+					if not game.Workspace.Enemies:FindFirstChild(_G.Setting_table.Boss_Name) and not game.ReplicatedStorage:FindFirstChild(_G.Setting_table.Boss_Name) then
+						Hop_Boss()
+						wait(1)
+						print("....".._G.Setting_table.Boss_Name)
+						wait(3)
+						if not game.Workspace.Enemies:FindFirstChild(_G.Setting_table.Boss_Name) and not game.ReplicatedStorage:FindFirstChild(_G.Setting_table.Boss_Name) then
+							HopServer()
+							wait(50)
+						end
+					end
+				end
+			elseif Auto_Farm_Boss_Ex then
+				Mix_Farm = nil
+				Auto_Farm_Boss_Ex = nil
+			else
+				wait(3)
+			end
+		end)
+	end
+end)
+
 mainf:AddLabel("Auto Mastery")
 
 mainf:AddToggle({
@@ -2693,10 +2896,11 @@ spawn(function()
         if game.ReplicatedStorage:FindFirstChild("Cake Prince [Lv. 2300] [Raid Boss]") or game:GetService("Workspace").Enemies:FindFirstChild("Cake Prince [Lv. 2300] [Raid Boss]") then
             PortalKill:Set("Can open the door to kill Cake Prince")
         else
-            PortalKill:Set("Need Kill Mods : " .. string.match(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CakePrinceSpawner", true), "%d+") .. " to open to kill Cake Prince")
+            PortalKill:Set("Need Kill Mons : " .. string.match(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CakePrinceSpawner", true), "%d+") .. " to open to kill Cake Prince")
         end
     end
 end)
+
 function toTarget(targetPos, targetCFrame)
     local tweenfunc = {}
     Distance = (targetPos - game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude
@@ -3210,8 +3414,18 @@ repeat wait(1)
 until game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Timer.Visible == false
 if _G.Setting_table.Auto_Awaken then
 	wait(2)
-	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Awakener","Check")
-	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Awakener","Awaken")
+	local args = {
+		[1] = "Awakener",
+		[2] = "Check"
+	}
+	
+	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+	local args = {
+		[1] = "Awakener",
+		[2] = "Awaken"
+	}
+	
+	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
 end
 
 
